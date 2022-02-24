@@ -1,20 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
-import axios from axios;
-import { text } from 'express';
+import axios from 'axios';
+import { useState } from 'react';
 
-function post_text() {
 
+function App() {
+  const [text,setText]=useState("");
+  async function post_text(e){
 
 try{
-  await axios.post('http://localhost:4000/post_text',
-  text
+
+  await axios.post("http://localhost:4000/post_text",
+  {text}
   
   )
 } catch(error){
   console.log(error)
 }
-
+  }
 
 
   return (
