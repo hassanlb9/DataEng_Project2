@@ -1,0 +1,10 @@
+Si problème avec npm faire :
+
+- npm cache clean --force 
+- npm install
+
+-----------------
+
+docker images
+docker build -t "....." .
+docker run -p 3000:3000 "......."
