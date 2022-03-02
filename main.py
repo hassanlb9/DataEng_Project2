@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+
 import unittest
 import pickle
 import numpy as np
@@ -6,17 +6,20 @@ import torch
 import transformers
 import json
 from detoxify import Detoxify
-
-#results = Detoxify('original').predict('I love you')
+from flask import Flask, request, jsonify, current_app
+from flask_cors import CORS
 
 app = Flask(__name__)
-@app.route('/', methods=["GET", "POST"])
-def predict_sentiment():
-    results = Detoxify('original').predict('I love you')
-    print(results)
-    return json.dumps(str(results))
+model=Detoxify('original')
+@app.route('/post_text', methods=['GET', 'POST'])
+def testPost():
+    if request.method == 'POST':
+       var = request.json.get('name')
+       print(model.predict(var))
+       print(var)
+       return var
+# because backend and frontend use different ports, we have to enable cross-origin requests
+cors = CORS(app, resources={'/*':{'origins': 'http://localhost:3000'}}) 
 
-
-
-if __name__ == '__main__':
-    app.run(host = "127.0.0.1", port = "5000")
+if __name__ == "__main__":
+    app.run()
