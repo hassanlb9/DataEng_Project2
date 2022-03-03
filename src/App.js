@@ -1,42 +1,58 @@
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios';
+
 import { useState } from 'react';
 
-
-function App() {
-  const [text,setText]=useState("");
-  async function post_text(e){
-
-try{
-
-  await axios.post("http://localhost:4000/post_text",
-  {text}
-  
+function POST(path, data) {
+  return fetch(`http://127.0.0.1:5000${path}`,
+  {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
   )
-} catch(error){
-  console.log(error)
 }
-  }
 
+function App(props) {
+  const [text, setText] = useState('');
+  const [name, setName] = useState('');
+    const onChange = e => {
+      setText(e.target.value)
+    }
+    const onClick = e => {
+      e.preventDefault();
+      POST('/post_text', {name: text}).then(
+        async (resp) => {
+          const json= await resp.json()
+          console.log(json.name)
+          setName(json.name)
+        }
+      )
+    }
+
+
+  
 
   return (
-<body>
+
 <div class="container">
     <div class="container-lg">
-        <h1 class="title"> Sentiment Analysis </h1>
-        <form method="POST" onSubmit={post_text}>
-          <textarea type="text" value={text} name="inp" placeholder="Enter your feelings ! " id="inp"></textarea>
-            <input type="submit" name="submit" id="btn" class="btn btn-primary"></input>
+        <h1 class="title"> TOXIC BERT APPLICATION  </h1>
+        <form>
+          <textarea type="text" value={text}   onChange={onChange} name="inp" id="inp" placeholder="Enter your feelings ! "/>
+            <input type="submit" value="Submit" onClick={onClick} name="submit" id="btn" class="btn btn-primary"/>
 
         </form>
      
-       
+        
 
     </div>
 </div>
-</body>
+
   );
 }
 
 export default App;
+
