@@ -1,4 +1,3 @@
-
 import unittest
 import pickle
 import numpy as np
@@ -15,10 +14,21 @@ model=Detoxify('original')
 def testPost():
     if request.method == 'POST':
        var = request.json.get('name')
+       global v0
+       v0=model.predict(var)
        print(model.predict(var))
        print(var)
-       return var
+    return json.dumps(str(v0))
+    
 # because backend and frontend use different ports, we have to enable cross-origin requests
+
+@app.route('/get_text', methods=['GET', 'POST'])
+def testPost1():
+    
+   var1 = testPost()
+   
+   return var1
+
 cors = CORS(app, resources={'/*':{'origins': 'http://localhost:3000'}}) 
 
 if __name__ == "__main__":
