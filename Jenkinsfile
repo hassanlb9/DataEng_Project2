@@ -5,14 +5,14 @@ pipeline {
       parallel {
         stage('stage 1') {
           steps {
-            bat 'npm install .'
+            bat 'sh -c npm install .'
           }
         }
 
         stage('dockerbuild') {
           steps {
-            bat 'docker build . -t myimage'
-            bat 'docker run myimage -p 3000:3000'
+            bat 'sh -c docker build . -t myimage'
+            bat 'sh -c docker run myimage -p 3000:3000'
           }
         }
 
