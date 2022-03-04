@@ -9,14 +9,14 @@ pipeline {
 
     stage('npm start') {
       steps {
-        sh 'npm start .'
+        bat 'npm start .'
       }
     }
 
     stage('Docker ') {
       steps {
-        sh 'docker build -t myimage .'
-        sh 'docker run myimage -p 3000:3000 -d'
+        bat 'docker build -t myimage .'
+        bat 'docker run myimage -p 3000:3000 -d'
       }
     }
 
