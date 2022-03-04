@@ -11,7 +11,7 @@ pipeline {
 
         stage('dockerbuild') {
           steps {
-            bat 'docker build . -t myimage'
+            bat 'docker build -t myimage .'
             bat 'docker run myimage -p 3000:3000'
           }
         }
