@@ -7,10 +7,16 @@ pipeline {
       }
     }
 
-    stage('Docker') {
+    stage('npm start') {
       steps {
-        bat 'docker build -t myimage .'
-        bat 'docker run myimage -p 3000:3000 -d'
+        sh 'npm start .'
+      }
+    }
+
+    stage('Docker ') {
+      steps {
+        sh 'docker build -t myimage .'
+        sh 'docker run myimage -p 3000:3000 -d'
       }
     }
 
