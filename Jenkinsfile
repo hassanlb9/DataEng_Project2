@@ -19,11 +19,5 @@ pipeline {
       }
     }
 
-    stage('npm start') {
-      steps {
-        bat 'npm start .'
-      }
-    }
-
   }
 }
