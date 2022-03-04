@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('step 1') {
       parallel {
-        stage('step 1') {
+        stage('stage 1') {
           steps {
             sh 'npm install .'
           }
