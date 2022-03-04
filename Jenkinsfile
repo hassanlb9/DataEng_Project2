@@ -2,21 +2,26 @@ pipeline {
   agent any
   stages {
     stage('stage 1') {
-      steps {
-        bat 'npm install .'
+      parallel {
+        stage('Step 1') {
+          steps {
+            bat 'npm install .'
+          }
+        }
+
+        stage('Docker') {
+          steps {
+            sh 'docker build -t myimage .'
+            sh 'docker run myimage -p 3000:3000'
+          }
+        }
+
       }
     }
 
     stage('npm start') {
       steps {
         bat 'npm start .'
-      }
-    }
-
-    stage('Docker ') {
-      steps {
-        bat 'docker build -t myimage .'
-        bat 'docker run myimage -p 3000:3000 -d'
       }
     }
 
