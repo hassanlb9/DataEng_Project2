@@ -5,7 +5,7 @@ pipeline {
       parallel {
         stage('stage 1') {
           steps {
-            bat  'npm install .'
+            bat 'npm install .'
           }
         }
 
