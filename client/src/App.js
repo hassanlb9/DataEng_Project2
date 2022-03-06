@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Nav from "./component/Form.js"
 
 import { useState } from 'react';
 
@@ -39,20 +40,20 @@ function App(props) {
 
 <div class="container">
     <div class="container-lg">
-        <h1 class="title"> TOXIC BERT APPLICATION  </h1>
+        <h1 class="title"> Toxic Monitor </h1>
         <form>
           <textarea type="text" value={text}   onChange={onChange} name="inp" id="inp" placeholder="Enter your feelings ! "/>
             <input type="submit" value="Submit" onClick={onClick} name="submit" id="btn" class="btn btn-primary"/>
 
         </form>
-     
-        
+       
 
     </div>
+    <Nav/>
 </div>
+
 
   );
 }
 
 export default App;
-
