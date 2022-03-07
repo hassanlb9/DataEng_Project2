@@ -1,24 +1,11 @@
 pipeline {
   agent any
   stages {
-    stage('clean workspace') {
+    stage('NPM Build') {
       steps {
-        cleanWs()
-        bat '''
-                echo "Cleaned Up Workspace For Project"
-                '''
+        bat 'docker-compose up'
       }
     }
 
-    stage('Code Checkout') {
-      steps {
-        checkout([
-                              $class: 'GitSCM', 
-                              branches: [[name: '*/main']], 
-                              userRemoteConfigs: [[url: 'https://github.com/hassanlb9/DataEng_Project2.git']]
-                          ])
-        }
-      }
-
-    }
   }
+}
