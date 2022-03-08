@@ -5,7 +5,7 @@ import Nav from "./component/Form.js"
 import { useState } from 'react';
 
 function POST(path, data) {
-  return fetch(`http://127.0.0.1:5000${path}`,
+  return fetch(`${path}`,
   {
       method: 'POST',
       headers: {
