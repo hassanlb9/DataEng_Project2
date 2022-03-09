@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('error') {
       steps {
-        sh 'run test.py'
+        bat 'run test.py'
       }
     }
 
