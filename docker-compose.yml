@@ -29,7 +29,7 @@ services:
     image: prom/prometheus:v2.20.1
     container_name: prometheus
     volumes:
-      - C:/Users/Hassan/DataEng_Project2/prometheus:/etc/prometheus
+      - ./prometheus:/etc/prometheus
     ports:
       - 9090:9090
     expose:
