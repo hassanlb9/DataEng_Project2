@@ -17,7 +17,7 @@ services:
    client:
        build: ./front
        ports:
-         - "3000:3000"
+         - "3002:3000"
        depends_on:
          - server
        networks:
