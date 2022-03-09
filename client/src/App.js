@@ -46,10 +46,10 @@ function App(props) {
             <input type="submit" value="Submit" onClick={onClick} name="submit" id="btn" class="btn btn-primary"/>
 
         </form>
-       
+       <Nav/>
 
     </div>
-    <Nav/>
+    
 </div>
 
 
