@@ -70,4 +70,4 @@ def testPost1():
 cors = CORS(app, resources={'/*':{'origins': 'http://localhost:3001'}}) 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True,host="0.0.0.0")
