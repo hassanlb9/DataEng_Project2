@@ -35,11 +35,18 @@ class TestApi(unittest.TestCase):
 
     def test_original(self):
         model = Detoxify("original")
-        results = model.predict(["shut up, you liar", "you look like Marilyn Monroe"])
+        results = model.predict(["i hate you", "shut up stupid man"])
         assert len(results) == 6
         assert all(cl in results for cl in CLASSES[:6])
         assert results["toxicity"][0] >= 0.7
         assert results["toxicity"][1] < 0.5
+        
+     
+    def test_stress(self):
+        tester=app.test_client(self)
+        for i in range(1000):
+            resp = tester.get('/test_text')
+            self.assertEqual(resp.status_code, 200)
 
             
 if __name__ == '__main__':
