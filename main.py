@@ -1,15 +1,16 @@
-import warnings
-from dock.main import app
-warnings.filterwarnings("ignore")
+from calendar import c
 import unittest
-import logging
-import time
+import pickle
+import torch
+import transformers
+import numpy as np
+import json
 from detoxify import Detoxify
+from flask import Flask, request, jsonify, current_app
+from flask_cors import CORS
 
-# Use log instead of print
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
+app = Flask(__name__)
+model=Detoxify('original')
 CLASSES = [
     "toxicity",
     "severe_toxicity",
@@ -19,28 +20,54 @@ CLASSES = [
     "identity_attack",
     "sexual_explicit",
 ]
+x=[{
+      "toxicity": 0,
+      "severe_toxicity":0,
+      "obscene":0
+
+  }]
 
 
-class TestApi(unittest.TestCase):
+@app.route('/test_text', methods=['GET', 'POST'])
 
-    URL = "http://localhost:5000/post_text"
+def test0():
+       global v0
+       v0=model.predict('hello my bro')
+       print(v0)
+       
+       return json.dumps(str(v0))
 
-    def test_server_is_up(self):
-        tester=app.test_client(self)
-        response = tester.get("/test_text")
-        statuscode=response.status_code
-        self.assertEqual(statuscode,200)
 
+@app.route('/post_text', methods=['GET', 'POST'])
+def testPost():
+   if request.method == 'POST':
+       var = request.json.get('name')
+       global v0
+       global vx
+       global dic
+       dic={}
+       v0=model.predict(var)
+       print(model.predict(var))
+       k=list(v0.keys())
+       for i in k:
+          dic[i]=np.float64(v0[i])
+       
+       print(var)
+       vx=[(dic)]
+       print(vx)
+   return json.dumps(vx)
+  
+
+    
+# because backend and frontend use different ports, we have to enable cross-origin requests
+@app.route('/get_text', methods=['GET', 'POST'])
+def testPost1():
+    
+   var1 = testPost()
    
+   return var1
 
-    def test_original(self):
-        model = Detoxify("original")
-        results = model.predict(["shut up, you liar", "you look like Marilyn Monroe"])
-        assert len(results) == 6
-        assert all(cl in results for cl in CLASSES[:6])
-        assert results["toxicity"][0] >= 0.7
-        assert results["toxicity"][1] < 0.5
+cors = CORS(app, resources={'/*':{'origins': 'http://localhost:3000'}}) 
 
-            
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == "__main__":
+    app.run(debug=True,host="0.0.0.0")
