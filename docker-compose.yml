@@ -1,74 +1,28 @@
-version: "3.2"
 
+version: "1.0"
+
+services:
+
+   server:
+       build: ./dock
+       ports:
+         - "80:5000"
+       
+      
+       environment:
+         - FLASK_ENV:developement
+       networks:
+         - monitoring
+
+   client:
+       build: ./front
+       ports:
+         - "3000:3000"
+       depends_on:
+         - server
+       networks:
+         - monitoring
+       container_name: frontend
 networks:
   monitoring:
     driver: bridge
-
-volumes:
-    prometheus_data: {}
-    grafana_data: {}
-
-services:
-  prometheus:
-    image: prom/prometheus:v2.20.1
-    container_name: prometheus
-    volumes:
-      - C:/Users/Hassan/DataEng_Project2/prometheus:/etc/prometheus
-    ports:
-      - 9090:9090
-    expose:
-      - 9090
-    networks:
-      - monitoring
-
-  node_exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    ports:
-      - 9100:9100
-    expose:
-      - 9100
-    restart: always
-    networks:
-      - monitoring
- 
-  grafana:
-    image: grafana/grafana:7.1.5
-    container_name: grafana
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
-    environment:
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    ports:
-      - 3100:3000
-    expose:
-      - 3100
-    networks:
-      - monitoring
-
-
-  server:
-    build: ./server
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./server:/app
-    environment:
-      - FLASK_ENV:developement
-    networks:
-      - monitoring
-
-  client:
-    build: ./client
-    ports:
-      - "3002:3000"
-    volumes:
-      - ./client:/user/src/aps
-    depends_on:
-      - server
-    networks:
-      - monitoring
-
